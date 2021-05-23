@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\6주차">
+      <UniqueIdentifier>{58bc1f7b-accf-4144-ac54-8b7b5db6393b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\7주차">
+      <UniqueIdentifier>{4ce3fc18-423a-4469-a646-e41fb8c968ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\공통">
+      <UniqueIdentifier>{69ca9939-5571-4497-8086-99dd665c9cf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\8주차">
+      <UniqueIdentifier>{2a789911-f168-4368-85c3-f9fe98bd6db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\9주차">
+      <UniqueIdentifier>{b920e929-68a8-41d5-b3b6-7fdb80063610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\10주차">
+      <UniqueIdentifier>{e41430a9-9854-453f-9b2f-9b0ad1b21d66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="로봇 시뮬레이션.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="맥주 마시면서 걸어가기.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="로봇.cpp">
+      <Filter>소스 파일\6주차</Filter>
+    </ClCompile>
+    <ClCompile Include="버블 소트_1517.cpp">
+      <Filter>소스 파일\7주차</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>소스 파일\7주차</Filter>
+    </ClCompile>
+    <ClCompile Include="문제집_1766.cpp">
+      <Filter>소스 파일\7주차</Filter>
+    </ClCompile>
+    <ClCompile Include="싸지방에 간 준하.cpp">
+      <Filter>소스 파일\7주차</Filter>
+    </ClCompile>
+    <ClCompile Include="max_heap.cpp">
+      <Filter>소스 파일\공통</Filter>
+    </ClCompile>
+    <ClCompile Include="Z.cpp">
+      <Filter>소스 파일\8주차</Filter>
+    </ClCompile>
+    <ClCompile Include="암기왕_2776.cpp">
+      <Filter>소스 파일\8주차</Filter>
+    </ClCompile>
+    <ClCompile Include="가운데를 말해요.cpp">
+      <Filter>소스 파일\8주차</Filter>
+    </ClCompile>
+    <ClCompile Include="수강신청_13414.cpp">
+      <Filter>소스 파일\9주차</Filter>
+    </ClCompile>
+    <ClCompile Include="회사에 있는 사람_7785.cpp">
+      <Filter>소스 파일\10주차</Filter>
+    </ClCompile>
+    <ClCompile Include="hash_main.cpp">
+      <Filter>소스 파일\공통</Filter>
+    </ClCompile>
+    <ClCompile Include="merge_sort_main.cpp">
+      <Filter>소스 파일\공통</Filter>
+    </ClCompile>
+    <ClCompile Include="회사에 있는 사람_7785_submit.cpp">
+      <Filter>소스 파일\10주차</Filter>
+    </ClCompile>
+    <ClCompile Include="string_test.cpp">
+      <Filter>소스 파일\공통</Filter>
+    </ClCompile>
+    <ClCompile Include="스도쿠_2580.cpp">
+      <Filter>소스 파일\10주차</Filter>
+    </ClCompile>
+    <ClCompile Include="heap_main.cpp">
+      <Filter>소스 파일\공통</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="merge_sort.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="hash_string.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="string.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="heap_sort.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BFS.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="merge_sort_prac.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

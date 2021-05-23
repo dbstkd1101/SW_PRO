@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Hash">
+      <UniqueIdentifier>{b176416b-ffa8-41c0-8bce-4d65af50ccd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Heap">
+      <UniqueIdentifier>{4ae54086-9fc3-4bb2-8216-7d61f023078d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\연결리스트">
+      <UniqueIdentifier>{221c7071-f0ce-4e06-8494-8a590b370a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Hash\도서관정리_H2106">
+      <UniqueIdentifier>{9cf1b8fc-82bd-4d35-bf18-2da5d37be70f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Hash\드래곤볼">
+      <UniqueIdentifier>{d024ff1d-7e98-4e72-9613-fd8225000e4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\기출문제">
+      <UniqueIdentifier>{4c021416-5645-4e0f-8a55-873097d7644b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\기출문제\스스디">
+      <UniqueIdentifier>{5ba4e5ea-2302-4319-82ae-bd28d7932bb6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="바이러스_2612.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="구간성분_2918_YSL%28미완성%29.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="바이러스 백신_2612_YSL.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="표절검사1_3252_user.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="표절검사1_3252_main.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="jstTest.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="표절검사2_user.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="표절검사2_main.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="설문조사_3144_user.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="설문조사_3144_main.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="책꽂이 만들기_1.cpp">
+      <Filter>소스 파일\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="마법색종이.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="파티일정관리2.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴찾기2_user.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴찾기2_main.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴찾기_user.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴찾기_main.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="농작물관리_main_미제.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="농작물관리_user_미제.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>소스 파일\Hash\도서관정리_H2106</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일\Hash\도서관정리_H2106</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴찾기_1_user.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴찾기_1_main.cpp">
+      <Filter>소스 파일\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="족보만들기_main.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="족보만들기_user.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="족보만들기_YS.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="드래곤볼_user.cpp">
+      <Filter>소스 파일\Hash\드래곤볼</Filter>
+    </ClCompile>
+    <ClCompile Include="드래곤볼_main.cpp">
+      <Filter>소스 파일\Hash\드래곤볼</Filter>
+    </ClCompile>
+    <ClCompile Include="회원 참여도 분석1.cpp">
+      <Filter>소스 파일\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="회원 참여도 분석2_user.cpp">
+      <Filter>소스 파일\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="회원 참여도 분석2_main.cpp">
+      <Filter>소스 파일\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="SSD_user.cpp">
+      <Filter>소스 파일\기출문제\스스디</Filter>
+    </ClCompile>
+    <ClCompile Include="SSD_main.cpp">
+      <Filter>소스 파일\기출문제\스스디</Filter>
+    </ClCompile>
+    <ClCompile Include="주문형 농산물재배_user.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="주문형 농산물재배_main.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="output.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
