@@ -72,9 +72,6 @@
     <ClCompile Include="마법색종이.cpp">
       <Filter>소스 파일\연결리스트</Filter>
     </ClCompile>
-    <ClCompile Include="파티일정관리2.cpp">
-      <Filter>소스 파일\연결리스트</Filter>
-    </ClCompile>
     <ClCompile Include="패턴찾기2_user.cpp">
       <Filter>소스 파일\Hash</Filter>
     </ClCompile>
@@ -139,6 +136,12 @@
       <Filter>소스 파일\연결리스트</Filter>
     </ClCompile>
     <ClCompile Include="주문형 농산물재배_main.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="파티일정관리2%28미완성%29.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="한줄메모장1.cpp">
       <Filter>소스 파일\연결리스트</Filter>
     </ClCompile>
   </ItemGroup>

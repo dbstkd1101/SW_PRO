@@ -124,6 +124,9 @@ static int run() {
 	int member_id, size, crop;
 	init_member();
 	for (i = 0; i < N; i++) {
+		if (i == 3) {
+			int a = 1;
+		}
 		scanf("%d", &demand);
 		switch (demand)
 		{

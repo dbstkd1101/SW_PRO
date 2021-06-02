@@ -1,107 +1,81 @@
-#ifndef _CRT_SECURE_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 #ifndef NULL
 #define NULL 0
 #endif
 
-#define MAX_REQ 10000
-
-struct pos {
-	int row, col;
-};
-
-struct emptyNode {
-	pos posHead;
-	int size;
-	emptyNode * prev, * next;
-	emptyNode * alloc(pos _posHead, int _size, emptyNode * _prev, emptyNode * _next) {
-		posHead = _posHead, size = _size, prev=_prev, next = _next;
-		prev->next = this;
-		if(prev) next->prev = this;
-		return this;
-	}
-	emptyNode * pop() {
-		if (prev) prev->next = next;
-		if (next) next->prev = prev;
-		return this;
-	}
-}emptyBuf[MAX_REQ];
-
-struct realNode {
-	pos posHead;
-	int size;
-	realNode * next;
-	realNode * alloc(pos _posHead, int _size, realNode * _next) {
-		posHead = _posHead, size = _size, next = _next;
-		return this;
-	}
-}realBuf[MAX_REQ], *memberArr[10000];
-
-emptyNode * emptyBufHead;
-int emptyBufCnt;
-int realBufCnt;
-
-int lotCnt;
+#define MAX_LOT 100000
 
 extern int add_lot();
 extern void assign(int lot_num, int s, int size, int member_id);
 extern void back(int lot_num, int s, int size);
 extern void grow(int lot_num, int s, int size, int crop);
 
+struct data {
+	int lot, st, size;
+	data* next;
+	data* alloc(int _lot, int _st, int _size, data* _next) {
+		lot = _lot, st = _st, size = _size, next = _next;
+		return this;
+	}
+}buf[50000], *mem[10001];
+
+int bCnt, memSize[10001];
+
+void push(int id, int lot, int st, int size) {
+	mem[id] = buf[bCnt++].alloc(lot, st, size, mem[id]);
+}
+
 void init_member()
 {
-	emptyBufCnt = lotCnt = realBufCnt = 0;
-	emptyBufHead = NULL;
-	for (int i = 0; i < 10000; i++) {
-		memberArr[i] = NULL;
+	bCnt = 0;
+	for (int i = 0; i < 10001; i++) {
+		mem[i] = 0, memSize[i] = 0;
 	}
 }
 
-void assign_member(int member_id, int size)
+void move(int s, int e) {
+	data * tmp = mem[s];
+	mem[s] = mem[s]->next;
+	tmp->next = mem[e];
+	mem[e] = tmp;
+}
+
+
+void assign_member(int id, int size)
 {
-	int popedSizeSum=0;
-	
-	while(emptyBufCnt > 0 && popedSizeSum < size){
-		emptyNode * temp = emptyBufHead->pop();
-		if (size < (popedSizeSum + temp->size)) {
-			int diff = popedSizeSum + temp->size - size;
-			emptyBuf[emptyBufCnt++].alloc({ temp->posHead.row, temp->posHead.col + temp->size - diff }, diff, temp->prev, temp->next);
-			popedSizeSum += temp->size - diff;
-			assign(lotCnt, temp->posHead.col, temp->size - diff, member_id);
-			memberArr[member_id] = realBuf[realBufCnt++].alloc(temp->posHead, temp->size-diff, memberArr[member_id]);
+	if (memSize[0] < size) {
+		int lot = add_lot();
+		push(0, lot, 0, MAX_LOT);
+		memSize[0] += MAX_LOT;
+	}
+	memSize[0] -= size;
+	memSize[id] += size;
+
+	while (size > 0) {
+		if (mem[0]->size > size) {
+			push(0, mem[0]->lot, mem[0]->st, size);
+			mem[0]->next->st += size, mem[0]->next->size -= size;
 		}
-		else {
-			popedSizeSum += temp->size;
-			assign(lotCnt, temp->posHead.col, temp->size, member_id);
-			memberArr[member_id] = realBuf[realBufCnt++].alloc(temp->posHead, temp->size, memberArr[member_id]);
-		}
-	}
-
-	if(emptyBufCnt < 0 && popedSizeSum < size ) {
-		add_lot(); lotCnt++;
-		//쓰고 남은 뒷 부분을 모두 emptyNode로 추가
-		assign(lotCnt, 0, size-popedSizeSum, member_id);
-		memberArr[member_id] = realBuf[realBufCnt++].alloc({lotCnt, 0}, size - popedSizeSum, memberArr[member_id]);
-		popedSizeSum += (size - popedSizeSum);
+		size -= mem[0]->size;
+		assign(mem[0]->lot, mem[0]->st, mem[0]->size, id);
+		move(0, id);
 	}
 }
 
-void back_member(int member_id)
+
+void back_member(int id)
 {
-	for (realNode * p = memberArr[member_id]; p; p = p->next) {
-		back(p->posHead.row, p->posHead.col, p->size);
-		//흠.. 이게 좀 불안하네
-		emptyBuf[emptyBufCnt].alloc(p->posHead, p->size, &emptyBuf[emptyBufCnt], NULL);
-		emptyBufCnt++;
+	memSize[0] += memSize[id];
+	memSize[id] = 0;
+	while (mem[id]) {
+		back(mem[id]->lot, mem[id]->st, mem[id]->size);
+		move(id, 0);
 	}
-	memberArr[member_id] = NULL;
 }
 
-void grow_member(int member_id, int crop)
+void grow_member(int id, int crop)
 {
-	for (realNode * p = memberArr[member_id]; p; p = p->next) {
-		grow(p->posHead.row, p->posHead.col, p->size, crop);
+	for (data* p = mem[id]; p; p = p->next) {
+		grow(p->lot, p->st, p->size, crop);
 	}
 }
+

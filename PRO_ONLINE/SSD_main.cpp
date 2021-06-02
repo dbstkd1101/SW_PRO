@@ -18,7 +18,7 @@
 #define MAX_FILE_SIZE   512
 
 extern void init(int blocks, int pages);
-extern void writeFile(int fid, int len, int arr[MAX_FILE_SIZE]);
+extern void writeFile(int fId, int len, int arr[MAX_FILE_SIZE]);
 extern void removeFile(int fileid);
 extern void modifyFile(int fileid, int len, int arr[MAX_FILE_SIZE]);
 extern int  readFile(int id, int bids[MAX_FILE_SIZE], int pids[MAX_FILE_SIZE]);
