@@ -126,9 +126,6 @@
     <ClCompile Include="회원 참여도 분석2_main.cpp">
       <Filter>소스 파일\Heap</Filter>
     </ClCompile>
-    <ClCompile Include="SSD_user.cpp">
-      <Filter>소스 파일\기출문제\스스디</Filter>
-    </ClCompile>
     <ClCompile Include="SSD_main.cpp">
       <Filter>소스 파일\기출문제\스스디</Filter>
     </ClCompile>
@@ -142,6 +139,12 @@
       <Filter>소스 파일\연결리스트</Filter>
     </ClCompile>
     <ClCompile Include="한줄메모장1.cpp">
+      <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="SSD_user_sample만 맞음.cpp">
+      <Filter>소스 파일\기출문제\스스디</Filter>
+    </ClCompile>
+    <ClCompile Include="파티일정관리2.cpp">
       <Filter>소스 파일\연결리스트</Filter>
     </ClCompile>
   </ItemGroup>
