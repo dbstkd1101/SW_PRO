@@ -15,7 +15,7 @@ struct node {
 	int pos;
 	int soundNum;
 	node * next;
-	node* mAlloc(int _pos, int _soundNum, node* _next) {
+	node* alloc(int _pos, int _soundNum, node* _next) {
 		pos = _pos;
 		soundNum = _soundNum;
 		next = _next;
@@ -39,7 +39,7 @@ int getHash(int sound1, int sound2, int sound3) {
 
 void addNode(int soundID, int * soundArr, int pos) {
 	int hash = getHash(soundArr[pos+0], soundArr[pos+1], soundArr[pos+2]);
-	bucket[hash]=buf[bufCnt].mAlloc(pos, soundID, bucket[hash]);
+	bucket[hash]=buf[bufCnt].alloc(pos, soundID, bucket[hash]);
 	bufCnt++;
 }
 
@@ -51,9 +51,6 @@ void initUser(int soundNum) {
 }
 
 void registerSound(int soundID, int soundLen, int soundArr[200]) {
-	if (soundID == 7) {
-		int a = 0;
-	}
 	for (int i = 0; i < soundLen; i++) {
 		sound[soundID][i] = soundArr[i];
 		if (i <= soundLen - NEW_SOUND_LENGTH) {
@@ -62,6 +59,12 @@ void registerSound(int soundID, int soundLen, int soundArr[200]) {
 	}
 }
 
+/*
+원본에 -128 ~ +127을 하면, 뒤 8bit는 난장판으로 바뀌지만, 앞에 7bit는 하나 올리거나/그대로거나/내리거나 일 뿐
+따라서, 반대로 -127 ~ +128하여 앞에 7bit를 하나 내리거나/올려서
+(변형되어서 (뒤8자리만 변동있을 때)) 앞의 7bit가 1101100라면, +된 만큼 -이면 앞의 7bit는 그대로.
++된 만큼 더 +시키면 1101101로 되겠지.
+*/
 int limit[3][8] = {
 	{-127, -127, -127, -127, +128, +128, +128, +128},
 	{-127, -127, +128, +128, -127, -127, +128, +128},

@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\기출문제\스스디">
       <UniqueIdentifier>{5ba4e5ea-2302-4319-82ae-bd28d7932bb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\기출문제\시설 찾기">
+      <UniqueIdentifier>{2f5acd74-3ec6-4f99-8863-b6482a1b57ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="바이러스_2612.cpp">
@@ -146,6 +149,12 @@
     </ClCompile>
     <ClCompile Include="파티일정관리2.cpp">
       <Filter>소스 파일\연결리스트</Filter>
+    </ClCompile>
+    <ClCompile Include="시설찾기_main.cpp">
+      <Filter>소스 파일\기출문제\시설 찾기</Filter>
+    </ClCompile>
+    <ClCompile Include="시설찾기_solution.cpp">
+      <Filter>소스 파일\기출문제\시설 찾기</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
