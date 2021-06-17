@@ -53,7 +53,9 @@ void _search1()
 	scanf("%d", &result);
 	int ret = search1(mType, mX, mY, radius);
 
-	if (result != ret) Score = 0;
+	if (result != ret){
+		Score = 0;
+	}
 
 }
 
@@ -99,6 +101,9 @@ int main()
 
 		for (int i = 0; i < cmd_cnt; i++)
 		{
+			if (tc == 3 && i==21) {
+				int a = 1;
+			}
 			if (i < cmd_cnt / 10) cmd = ADD;
 			else
 			{
@@ -114,7 +119,7 @@ int main()
 			{
 			case ADD: _add(); break;
 			case DEL: _removeId(); break;
-			case  SR1: _search1(); break;
+			case SR1: _search1(); break;
 			case SR2: _search2(); break;
 			}
 

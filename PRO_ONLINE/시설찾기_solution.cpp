@@ -8,12 +8,6 @@
 #define NULL 0
 #endif
 
-int gethash(Pos _pos) {
-	int sum = 0;
-	sum = (_pos.x << 14 + _pos.y)%SIZE;
-	return sum;
-}
-
 int xDir[4] = { 0, 1, 0, -1 };
 int yDir[4] = { -1, 0, 1, 0 };
 
@@ -22,12 +16,18 @@ struct Pos {
 	int dist;
 };
 
+int gethash(Pos _pos) {
+	int sum = 0;
+	sum = ((_pos.x) * (_pos.x) + (_pos.y) * (_pos.y)) % SIZE;
+	return sum;
+}
+
 struct facility {
 	Pos pos;
 	int mId, mType;
-	facility * prev, * next;
-	facility * alloc(Pos _pos, int _mId, int _mType, facility * _prev, facility * _next) {
-		pos=_pos, mId=_mId, mType = _mType, prev=_prev, next = _next;
+	facility* prev, * next;
+	facility* alloc(Pos _pos, int _mId, int _mType, facility* _prev, facility* _next) {
+		pos = _pos, mId = _mId, mType = _mType, prev = _prev, next = _next;
 		if (prev) prev->next = this;
 		if (next) next->prev = this;
 		return this;
@@ -39,9 +39,9 @@ struct facility {
 }fBuf[MAX_ADD_CNT + SIZE], * bucket[SIZE];
 
 int fBCnt;
-int N;
+int tN;
 
-facility * mIdArr[MAX_M_ID];
+facility* mIdArr[MAX_M_ID];
 
 int getRootDistance(int ax, int bx, int ay, int by) {
 	int distX = (ax >= bx) ? ax - bx : bx - ax;
@@ -53,7 +53,7 @@ int getRootDistance(int ax, int bx, int ay, int by) {
 void init(int N)
 {
 	fBCnt = 0;
-	N = N;
+	tN = N;
 
 	//dummy node
 	for (int i = 0; i < SIZE; i++) {
@@ -69,18 +69,18 @@ void add(int mId, int mType, int mX, int mY)
 {
 	Pos _pos = { mX, mY, -1 };
 	int hash = gethash(_pos);
-	mIdArr[mId]=fBuf[fBCnt++].alloc(_pos, mId, mType, bucket[hash], bucket[hash]->next);
+	mIdArr[mId] = fBuf[fBCnt++].alloc(_pos, mId, mType, bucket[hash], bucket[hash]->next);
 }
 
 void removeId(int mId)
 {
-	mIdArr[mId]->pop();
+	if (mIdArr[mId]) mIdArr[mId]->pop();
 	mIdArr[mId] = NULL;
 }
 
 bool isThere(int mType, Pos _pos) {
 	int hash = gethash(_pos);
-	for (facility * p = bucket[hash]->next; p; p = p->next) {
+	for (facility* p = bucket[hash]->next; p; p = p->next) {
 		if (mType == 0) {
 			if (p->pos.x == _pos.x && p->pos.y == _pos.y) {
 				return true;
@@ -96,9 +96,9 @@ bool isThere(int mType, Pos _pos) {
 }
 
 int isThereAndFindMId(int mType, Pos _pos) {
-	int rst = 0;
+	int rst = -1;
 	int hash = gethash(_pos);
-	for (facility * p = bucket[hash]->next; p; p = p->next) {
+	for (facility* p = bucket[hash]->next; p; p = p->next) {
 		if (p->pos.x == _pos.x && p->pos.y == _pos.y && p->mType == mType) {
 			return rst = p->mId;
 		}
@@ -107,12 +107,12 @@ int isThereAndFindMId(int mType, Pos _pos) {
 }
 
 int visited[MAX_N][MAX_N];
-Pos queue[MAX_N*MAX_N];
+Pos queue[MAX_N * MAX_N];
 
 void initErase() {
-	for (int i = 0; i < MAX_N; i++) {
-		for (int j = 0; j < MAX_N; j++) {
-			visited[i][j] = false;
+	for (int i = 0; i < tN; i++) {
+		for (int j = 0; j < tN; j++) {
+			visited[i][j] = NULL;
 		}
 	}
 }
@@ -122,20 +122,24 @@ int search1(int mType, int mX, int mY, int radius)
 	initErase();
 	int rstCnt = 0, front = -1, rear = -1;
 	Pos first = { mX, mY };
-	visited[first.x][first.y] = true;
+	visited[first.y][first.x] = true;
 	if (isThere(mType, first)) {
 		rstCnt++;
 	}
-	if (radius*radius > getRootDistance(mX, first.x, mY, first.y)) queue[++rear] = first;
+	if (radius * radius > getRootDistance(mX, first.x, mY, first.y)) queue[++rear] = first;
 
 	while (front < rear) {
 		Pos popNode = queue[++front];
 		for (int i = 0; i < 4; i++) {
 			Pos tmp = { popNode.x + xDir[i], popNode.y + yDir[i] };
-			if (!visited[tmp.x][tmp.y]) {
-				visited[tmp.x][tmp.y] = true;
-				if (isThere(mType, tmp))rstCnt++;
-				if (radius*radius > getRootDistance(mX, tmp.x, mY, tmp.y)) queue[++rear] = tmp;
+			if (!visited[tmp.y][tmp.x]) {
+				visited[tmp.y][tmp.x] = true;
+				if (radius * radius > getRootDistance(mX, tmp.x, mY, tmp.y)) {
+					queue[++rear] = tmp;
+					if (isThere(mType, tmp)) {
+						rstCnt++;
+					}
+				}
 			}
 		}
 	}
@@ -144,11 +148,11 @@ int search1(int mType, int mX, int mY, int radius)
 
 typedef facility data;
 
-void swap(data &a, data &b) {
+void swap(data& a, data& b) {
 	data t = a; a = b; b = t;
 }
 
-bool Min(data a, data b, Pos center) { 
+bool Min(data a, data b, Pos center) {
 	return getRootDistance(a.pos.x, center.x, a.pos.y, center.y) < getRootDistance(b.pos.x, center.x, b.pos.y, center.y) ? true : ((getRootDistance(a.pos.x, center.x, a.pos.y, center.y) == getRootDistance(b.pos.x, center.x, b.pos.y, center.y)) && (a.mId < b.mId)) ? true : false;
 }
 
@@ -194,32 +198,34 @@ struct PriorityQueue {
 void search2(int mType, int mX, int mY, int mIdList[5])
 {
 	initErase();
-	
+
 	int rstIdx = 0, front = -1, rear = -1;
-	int beforeDist=0;
+	int beforeDist = 0;
 	Pos first = { mX, mY, 0 };
-	visited[first.x][first.y] = true;
+	visited[first.y][first.x] = true;
 	int mId;
-	if ((mId = isThereAndFindMId(mType, {first.x, first.y})) >= 0) mIdList[rstIdx++] = mId;
+	if ((mId = isThereAndFindMId(mType, { first.x, first.y })) >= 0) mIdList[rstIdx++] = mId;
 	queue[++rear] = first;
 
-	while (front < rear) {
-		Pos tempPos = { mX, mY, -1};
-		minpq.init(tempPos, Min);
+	Pos tempPos = { mX, mY, -1 };
+	minpq.init(tempPos, Min);
+	while (front < rear) {	
 		Pos popNode = queue[++front];
-		
+
 		// queue에 있는 node의 dist가 1이 추가 되었다는 것은, 최고 5개 이하만 추리는 작업이 필요.
 		if (beforeDist != popNode.dist) {
-			while (rstIdx<5 && minpq.size() > 0) {
-				mIdList[rstIdx++]= (minpq.pop()).mId;
+			while (rstIdx < 5 && minpq.size() > 0) {
+				mIdList[rstIdx++] = (minpq.pop()).mId;
 			}
-			if (rstIdx >= 5) return;
 		}
-		
+
 		for (int i = 0; i < 4; i++) {
-			Pos tmp = { popNode.x + xDir[i], popNode.y + yDir[i], popNode.dist+1 };
-			if (!visited[tmp.x][tmp.y]) {
-				visited[tmp.x][tmp.y] = true;
+			Pos tmp = { popNode.x + xDir[i], popNode.y + yDir[i], popNode.dist + 1 };
+			if (0<=tmp.x && tmp.x<tN && 0<=tmp.y && tmp.y<tN && !visited[tmp.y][tmp.x]) {
+				if (tmp.x == 5 && tmp.y == 1) {
+					int a = 1;
+				}
+				visited[tmp.y][tmp.x] = true;
 				if ((mId = isThereAndFindMId(mType, { tmp.x, tmp.y, -1 })) >= 0) {
 					facility tempFacility;
 					tempFacility.pos = { tmp.x, tmp.y, -1 };
@@ -230,6 +236,9 @@ void search2(int mType, int mX, int mY, int mIdList[5])
 			}
 			beforeDist = popNode.dist;
 		}
+	}
+	while (rstIdx < 5 && minpq.size() > 0) {
+		mIdList[rstIdx++] = (minpq.pop()).mId;
 	}
 }
 
