@@ -8,9 +8,9 @@
 #define NULL 0
 #endif
 
-int gethash(int x, int y) {
+int gethash(Pos _pos) {
 	int sum = 0;
-	sum = (x < 16 + y)%SIZE;
+	sum = (_pos.x << 14 + _pos.y)%SIZE;
 	return sum;
 }
 
@@ -19,10 +19,6 @@ int yDir[4] = { -1, 0, 1, 0 };
 
 struct Pos {
 	int x, y;
-};
-
-struct Pos2 {
-	int x, y;
 	int dist;
 };
 
@@ -30,8 +26,8 @@ struct facility {
 	Pos pos;
 	int mId, mType;
 	facility * prev, * next;
-	facility * alloc(int _x, int _y, int _mId, int _mType, facility * _prev, facility * _next) {
-		pos.x = _x, pos.y = _y, mId=_mId, mType = _mType, prev=_prev, next = _next;
+	facility * alloc(Pos _pos, int _mId, int _mType, facility * _prev, facility * _next) {
+		pos=_pos, mId=_mId, mType = _mType, prev=_prev, next = _next;
 		if (prev) prev->next = this;
 		if (next) next->prev = this;
 		return this;
@@ -48,8 +44,8 @@ int N;
 facility * mIdArr[MAX_M_ID];
 
 int getRootDistance(int ax, int bx, int ay, int by) {
-	int distX = (ax > bx) ? ax - bx : bx - ax;
-	int distY = (ay > by) ? ay - by : by - ay;
+	int distX = (ax >= bx) ? ax - bx : bx - ax;
+	int distY = (ay >= by) ? ay - by : by - ay;
 
 	return distX * distX + distY * distY;
 }
@@ -61,7 +57,7 @@ void init(int N)
 
 	//dummy node
 	for (int i = 0; i < SIZE; i++) {
-		bucket[i] = fBuf[fBCnt++].alloc(-1, -1, -1, -1, NULL, NULL);
+		bucket[i] = fBuf[fBCnt++].alloc({ -1, -1, -1 }, -1, -1, NULL, NULL);
 	}
 	// 0 부터 시작
 	for (int j = 0; j < MAX_M_ID; j++) {
@@ -71,8 +67,9 @@ void init(int N)
 
 void add(int mId, int mType, int mX, int mY)
 {
-	int hash = gethash(mX, mY);
-	mIdArr[mId]=fBuf[fBCnt++].alloc(mX, mY, mId, mType, bucket[hash], bucket[hash]->next);
+	Pos _pos = { mX, mY, -1 };
+	int hash = gethash(_pos);
+	mIdArr[mId]=fBuf[fBCnt++].alloc(_pos, mId, mType, bucket[hash], bucket[hash]->next);
 }
 
 void removeId(int mId)
@@ -82,7 +79,7 @@ void removeId(int mId)
 }
 
 bool isThere(int mType, Pos _pos) {
-	int hash = gethash(_pos.x, _pos.y);
+	int hash = gethash(_pos);
 	for (facility * p = bucket[hash]->next; p; p = p->next) {
 		if (mType == 0) {
 			if (p->pos.x == _pos.x && p->pos.y == _pos.y) {
@@ -99,20 +96,18 @@ bool isThere(int mType, Pos _pos) {
 }
 
 int isThereAndFindMId(int mType, Pos _pos) {
-int rst = 0;
-int hash = gethash(_pos.x, _pos.y);
-for (facility * p = bucket[hash]->next; p; p = p->next) {
-	if (p->pos.x == _pos.x && p->pos.y == _pos.y && p->mType == mType) {
-		return rst = p->mId;
+	int rst = 0;
+	int hash = gethash(_pos);
+	for (facility * p = bucket[hash]->next; p; p = p->next) {
+		if (p->pos.x == _pos.x && p->pos.y == _pos.y && p->mType == mType) {
+			return rst = p->mId;
+		}
 	}
-}
-return rst;
+	return rst;
 }
 
 int visited[MAX_N][MAX_N];
 Pos queue[MAX_N*MAX_N];
-
-Pos2 queue2[MAX_N*MAX_N];
 
 void initErase() {
 	for (int i = 0; i < MAX_N; i++) {
@@ -201,17 +196,17 @@ void search2(int mType, int mX, int mY, int mIdList[5])
 	initErase();
 	
 	int rstIdx = 0, front = -1, rear = -1;
-	int beforeDist;
-	Pos2 first = { mX, mY, 0 };
+	int beforeDist=0;
+	Pos first = { mX, mY, 0 };
 	visited[first.x][first.y] = true;
-
-	if (int mId = isThereAndFindMId(mType, {first.x, first.y})) mIdList[rstIdx++] = mId;
-	queue2[++rear] = first;
+	int mId;
+	if ((mId = isThereAndFindMId(mType, {first.x, first.y})) >= 0) mIdList[rstIdx++] = mId;
+	queue[++rear] = first;
 
 	while (front < rear) {
-		Pos tempPos = { mX, mY };
+		Pos tempPos = { mX, mY, -1};
 		minpq.init(tempPos, Min);
-		Pos2 popNode = queue2[++front];
+		Pos popNode = queue[++front];
 		
 		// queue에 있는 node의 dist가 1이 추가 되었다는 것은, 최고 5개 이하만 추리는 작업이 필요.
 		if (beforeDist != popNode.dist) {
@@ -222,16 +217,16 @@ void search2(int mType, int mX, int mY, int mIdList[5])
 		}
 		
 		for (int i = 0; i < 4; i++) {
-			Pos2 tmp = { popNode.x + xDir[i], popNode.y + yDir[i], popNode.dist+1 };
+			Pos tmp = { popNode.x + xDir[i], popNode.y + yDir[i], popNode.dist+1 };
 			if (!visited[tmp.x][tmp.y]) {
 				visited[tmp.x][tmp.y] = true;
-				if (int mId = isThereAndFindMId(mType, { tmp.x, tmp.y })) {
+				if ((mId = isThereAndFindMId(mType, { tmp.x, tmp.y, -1 })) >= 0) {
 					facility tempFacility;
-					tempFacility.pos = { tmp.x, tmp.y };
+					tempFacility.pos = { tmp.x, tmp.y, -1 };
 					tempFacility.mId = mId;
 					minpq.push(tempFacility);
 				}
-				queue2[++rear] = tmp;
+				queue[++rear] = tmp;
 			}
 			beforeDist = popNode.dist;
 		}
