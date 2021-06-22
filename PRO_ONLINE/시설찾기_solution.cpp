@@ -2,7 +2,7 @@
 #define MAX_M_TYPE 10
 #define MAX_M_ID 5000
 #define SIZE 10000
-#define MAX_ADD_CNT (int)(50000*0.45)
+#define MAX_ADD_CNT 30000
 
 #ifndef NULL
 #define NULL 0
@@ -41,7 +41,11 @@ struct facility {
 int fBCnt;
 int tN;
 
-facility* mIdArr[MAX_M_ID];
+int getDistance(int ax, int bx, int ay, int by) {
+	int distX = (ax >= bx) ? ax - bx : bx - ax;
+	int distY = (ay >= by) ? ay - by : by - ay;
+	return distX + distY;
+}
 
 int getRootDistance(int ax, int bx, int ay, int by) {
 	int distX = (ax >= bx) ? ax - bx : bx - ax;
@@ -56,12 +60,9 @@ void init(int N)
 	tN = N;
 
 	//dummy node
-	for (int i = 0; i < SIZE; i++) {
-		bucket[i] = fBuf[fBCnt++].alloc({ -1, -1, -1 }, -1, -1, NULL, NULL);
-	}
-	// 0 부터 시작
-	for (int j = 0; j < MAX_M_ID; j++) {
-		mIdArr[j] = NULL;
+	int j = 0;
+	for (int i = MAX_ADD_CNT; i < MAX_ADD_CNT+SIZE; i++, j++) {
+		bucket[j] = fBuf[i].alloc({ -1, -1, -1 }, -1, -1, NULL, NULL);
 	}
 }
 
@@ -69,13 +70,26 @@ void add(int mId, int mType, int mX, int mY)
 {
 	Pos _pos = { mX, mY, -1 };
 	int hash = gethash(_pos);
-	mIdArr[mId] = fBuf[fBCnt++].alloc(_pos, mId, mType, bucket[hash], bucket[hash]->next);
+	fBuf[mId].alloc(_pos, mId, mType, bucket[hash], bucket[hash]->next);
 }
 
 void removeId(int mId)
 {
-	if (mIdArr[mId]) mIdArr[mId]->pop();
-	mIdArr[mId] = NULL;
+	if (fBuf[mId].pos.x!=-1) fBuf[mId].pop();
+}
+
+int getMaxEdgDist(int mX, int mY) {
+	int rstDist = -1;
+	int tmpDist;
+	int dirX[4] = { 0, tN, tN, 0 };
+	int dirY[4] = { 0, 0, tN, tN };
+
+
+	for (int i = 0; i < 4; i++) {
+		tmpDist = getDistance(mX, dirX[i], mY, dirY[i]);
+		if (rstDist < tmpDist) rstDist = tmpDist;
+	}
+	return rstDist;
 }
 
 bool isThere(int mType, Pos _pos) {
@@ -95,6 +109,7 @@ bool isThere(int mType, Pos _pos) {
 	return false;
 }
 
+// 없으면 -1 반환, 있으면 0 이상
 int isThereAndFindMId(int mType, Pos _pos) {
 	int rst = -1;
 	int hash = gethash(_pos);
@@ -106,9 +121,10 @@ int isThereAndFindMId(int mType, Pos _pos) {
 	return rst;
 }
 
-int visited[MAX_N][MAX_N];
+//int visited[MAX_N][MAX_N];
 Pos queue[MAX_N * MAX_N];
 
+/*
 void initErase() {
 	for (int i = 0; i < tN; i++) {
 		for (int j = 0; j < tN; j++) {
@@ -116,7 +132,8 @@ void initErase() {
 		}
 	}
 }
-
+*/
+/*
 int search1(int mType, int mX, int mY, int radius)
 {
 	initErase();
@@ -145,7 +162,44 @@ int search1(int mType, int mX, int mY, int radius)
 	}
 	return rstCnt;
 }
+*/
 
+int search1(int mType, int mX, int mY, int radius) {
+	int rstCnt = 0;
+	int distN = getMaxEdgDist(mX, mY);
+	int x, y;
+
+	// 북 동 남 서
+	int dirXFir[4] = { 0, 1, 0, -1 };
+	int dirYFir[4] = { -1, 0, 1, 0 };
+	// 동 남 서 북
+	int dirXSec[4] = { 1, 0, -1, 0 };
+	int dirYSec[4] = { 1, 0, -1, 0 }; 
+
+	for (int i = 0; i <= distN; i++) {
+		
+		// 대각선 돌고(영역 : 북, 동, 남, 서)
+		for (int j = 0; j < 4; j++) {
+			for (int l = 1; l < i; l++) {
+				x = mX + (dirXFir[j] * (distN - 1 * l)) + (dirXSec[j] * l);
+				y = mY + (dirYFir[j] * (distN - 1 * l)) + (dirYSec[j] * l);
+				if (radius * radius > getRootDistance(mX, x, mY, y)) {
+					if (isThere(mType, { x, y, -1 })) {
+						rstCnt++;
+					}
+				}
+				else {
+
+				}
+			}
+		}
+		//직선 돌고 (북, 동, 남, 서)
+		for (int k = 0; k < 4; k++) {
+
+		}
+	}
+
+}
 typedef facility data;
 
 void swap(data& a, data& b) {
