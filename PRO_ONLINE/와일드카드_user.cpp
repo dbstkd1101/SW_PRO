@@ -14,7 +14,7 @@ int mstrcmp(const char a[], const char b[])
 void mstrcpy(char dest[], const char src[])
 {
 	int i = 0;
-	while (src[i] != '\0') { dest[i] = src[i]; i++; }
+	while (src[i] != 0) { dest[i] = src[i]; i++; }
 	dest[i] = src[i];
 }
 
@@ -25,7 +25,7 @@ int mstrlen(const char a[])
 	return i;
 }
 
-#define SIZE 10000
+#define SIZE 1000000
 #define MAX_LEN_NAME 6
 #define MAX_CNT_ADD 50000
 
@@ -39,9 +39,11 @@ int getHash(char name[MAX_LEN_NAME+1]) {
 
 struct word {
 	int idx;
+	char name[MAX_LEN_NAME + 1];
 	word *prev, *next;
-	word* alloc(int _idx, word *_prev, word *_next) {
+	word* alloc(int _idx, char _name[MAX_LEN_NAME + 1], word *_prev, word *_next) {
 		idx = _idx, prev = _prev, next = _next;
+		mstrcpy(name, _name);
 		if (prev) prev->next = this;
 		if (next) next->prev = this;
 		return this;
@@ -67,12 +69,14 @@ int searchRemoveCnt;
 
 void init(void)
 {
-	searchRemoveCnt = wBCnt = nSCnt = 0;
+	wBCnt = nSCnt = 0;
+	searchRemoveCnt = 0;
 	// dummy node add
+	char tmp[MAX_LEN_NAME + 1] = "";
 	for (int i = 0; i < SIZE; i++) {
-		front[i] = wBuf[wBCnt++].alloc(-1, NULL, NULL);
-		back[i] = wBuf[wBCnt++].alloc(-1, NULL, NULL);
-		origin[i] = wBuf[wBCnt++].alloc(-1, NULL, NULL);
+		front[i] = wBuf[wBCnt++].alloc(-1, tmp, NULL, NULL);
+		back[i] = wBuf[wBCnt++].alloc(-1, tmp, NULL, NULL);
+		origin[i] = wBuf[wBCnt++].alloc(-1, tmp, NULL, NULL);
 	}
 
 	for (int j = 0; j < MAX_CNT_ADD; j++) nameCnt[j] = 0;
@@ -82,7 +86,7 @@ int getSearch(char str[]) {
 	int hash = getHash(str);
 
 	for (word* p = origin[hash]->next; p; p = p->next) {
-		if (!mstrcmp(str, nStk[p->idx].name)) {
+		if (!mstrcmp(str, p->name)) {
 			return p->idx;
 		}
 	}
@@ -94,18 +98,19 @@ int getSearch(char str[]) {
 	return nSCnt++;
 }
 
-bool astericCheck(char * front, char *back, char * str) {
-	bool rst = false;
+int astericCheck(char * front, char *back, char * str, int len) {
+	int rst = 0;
 
-	for (int i = 0; i < MAX_LEN_NAME + 1; i++) {
+	for (int i = 0; i < len; i++) {
 		if (str[i] == '*') {
 			for (int j = 0; j < i; j++) {
 				front[j] = str[j];
 			}
-			for (int j = i+1; j < MAX_LEN_NAME; j++) {
-				back[j] = str[j];
+			int c = 0;
+			for (int j = i+1; str[j] && j < len; j++, c++) {
+				back[c] = str[j];
 			}
-			return (rst = true);
+			return (rst = 1);
 		}
 	}
 	return rst;
@@ -114,6 +119,9 @@ bool astericCheck(char * front, char *back, char * str) {
 // 같은 단어 여러 번 나올 수 있음
 void addWord(char str[])
 {
+	if (!mstrcmp("lpp", str)) {
+		int a = 1;
+	}
 	int nSCntTmp = nSCnt;
 	int idx = getSearch(str);
 	//신규추가
@@ -126,7 +134,7 @@ void addWord(char str[])
 				tmpStr[j] = str[j];
 			}
 			int hash = getHash(tmpStr);
-			nStk[idx].addr[nStk[idx].addrCnt++]=wBuf[wBCnt++].alloc(idx, front[hash], front[hash]->next);
+			nStk[idx].addr[nStk[idx].addrCnt++]=wBuf[wBCnt++].alloc(idx, tmpStr, front[hash], front[hash]->next);
 		}
 		//back Add
 		for (int i = 0; i < len; i++) {
@@ -135,11 +143,11 @@ void addWord(char str[])
 				tmpStr[j] = str[len-1-i+j];
 			}
 			int hash = getHash(tmpStr);
-			nStk[idx].addr[nStk[idx].addrCnt++]=wBuf[wBCnt++].alloc(idx, back[hash], back[hash]->next);
+			nStk[idx].addr[nStk[idx].addrCnt++]=wBuf[wBCnt++].alloc(idx, tmpStr, back[hash], back[hash]->next);
 		}
 		//origin Add
 		int hash = getHash(str);
-		nStk[idx].addr[nStk[idx].addrCnt++]=wBuf[wBCnt++].alloc(idx, origin[hash], origin[hash]->next);
+		nStk[idx].addr[nStk[idx].addrCnt++]=wBuf[wBCnt++].alloc(idx, str, origin[hash], origin[hash]->next);
 	}
 	else {
 		nStk[idx].cnt++;
@@ -151,58 +159,77 @@ int removeWord(char str[])
 	int rstCnt = 0;
 	char frontStr[MAX_LEN_NAME + 1] = { 0, };
 	char backStr[MAX_LEN_NAME + 1] = { 0, };
+	searchRemoveCnt++;
 
+	int len = mstrlen(str);
 	// '*'가 있다면
-	if (astericCheck(frontStr, backStr, str)) {
-		if (front[0]) {
+	if (astericCheck(frontStr, backStr, str, len)) {
+		if (frontStr[0]) {
 			int fHash = getHash(frontStr);
-			for (word* p = front[fHash]; p; p = p->next) {
-				if (nameCnt[p->idx] == searchRemoveCnt) nameCnt[p->idx] = (searchRemoveCnt + 1);
-				else nameCnt[p->idx] = searchRemoveCnt;
+			for (word* p = front[fHash]->next; p; p = p->next) {
+				if (!mstrcmp(p->name, frontStr)) {
+					if (nameCnt[p->idx] == searchRemoveCnt*2) nameCnt[p->idx] = (searchRemoveCnt*2 + 1);
+					else nameCnt[p->idx] = searchRemoveCnt*2;
+				}
 			}
 		}
 
-		if (back[0]) {
+		if (backStr[0]) {
 			int fHash = getHash(backStr);
-			for (word* p = back[fHash]; p; p = p->next) {
-				if (nameCnt[p->idx] == searchRemoveCnt) nameCnt[p->idx] = (searchRemoveCnt + 1);
-				else nameCnt[p->idx] = searchRemoveCnt;
+			for (word* p = back[fHash]->next; p; p = p->next) {
+				if (!mstrcmp(p->name, backStr)) {
+					if (nameCnt[p->idx] == searchRemoveCnt * 2) nameCnt[p->idx] = (searchRemoveCnt * 2 + 1);
+					else nameCnt[p->idx] = searchRemoveCnt * 2;
+				}
 			}
 		}
 
-		if (front[0] && back[0]) {
+		if (frontStr[0] && backStr[0]) {
 			for (int i = 0; i < nSCnt; i++) {
-				if (nameCnt[i] == (searchRemoveCnt + 1)) {
+				if (nameCnt[i] == (searchRemoveCnt * 2 + 1)&& mstrlen(nStk[i].name) >= (mstrlen(frontStr) + mstrlen(backStr))) {
 					rstCnt += nStk[i].cnt;
+					nStk[i].cnt = 0;
 					for (int j = 0; j < nStk[i].addrCnt; j++) {
 						nStk[i].addr[j]->pop();
 					}
 				}
 			}
 		}
-		else {
-			// front만 있을 경우
+		else if(frontStr[0] || backStr[0]){
+			// front or back 만 있을 경우
 			for (int i = 0; i < nSCnt; i++) {
-				if (nameCnt[i] == (searchRemoveCnt)) {
+				if (nameCnt[i] == (searchRemoveCnt * 2)) {
 					rstCnt += nStk[i].cnt;
+					nStk[i].cnt = 0;
 					for (int j = 0; j < nStk[i].addrCnt; j++) {
 						nStk[i].addr[j]->pop();
 					}
+				}
+			}
+		}
+		// '*' 일때 = frontStr, backStr 모두 null
+		else {
+			for (int i = 0; i < nSCnt; i++) {
+				rstCnt += nStk[i].cnt;
+				nStk[i].cnt = 0;
+				for (int j = 0; j < nStk[i].addrCnt; j++) {
+					nStk[i].addr[j]->pop();
 				}
 			}
 		}
 	}
 	else {
 		int hash = getHash(str);
-		for (word* p = origin[hash]; p; p = p->next) {
-			rstCnt = nStk[p->idx].cnt;
-			for (int i = 0; i < nStk[p->idx].addrCnt; i++) {
-				nStk[p->idx].addr[i]->pop();
+		for (word* p = origin[hash]->next; p; p = p->next) {
+			if (!mstrcmp(p->name, str)) {
+				rstCnt = nStk[p->idx].cnt;
+				nStk[p->idx].cnt = 0;
+				for (int i = 0; i < nStk[p->idx].addrCnt; i++) {
+					nStk[p->idx].addr[i]->pop();
+				}
 			}
 		}
 	}
-	searchRemoveCnt *= 2;
-
 	return rstCnt;
 }
 
@@ -212,47 +239,61 @@ int searchWord(char str[])
 	
 	char frontStr[MAX_LEN_NAME + 1] = { 0, };
 	char backStr[MAX_LEN_NAME + 1] = { 0, };
-
+	
+	searchRemoveCnt++;
+	int len = mstrlen(str);
 	// '*'가 있다면
-	if (astericCheck(frontStr, backStr, str)) {
-		if (front[0]) {
+	if (astericCheck(frontStr, backStr, str, len)) {
+		if (frontStr[0]) {
 			int fHash = getHash(frontStr);
-			for (word* p = front[fHash]; p; p = p->next) {
-				if (nameCnt[p->idx] == searchRemoveCnt) nameCnt[p->idx] = (searchRemoveCnt + 1);
-				else nameCnt[p->idx] = searchRemoveCnt;
+			for (word* p = front[fHash]->next; p; p = p->next) {
+				if (!mstrcmp(p->name, frontStr)) {
+					if (nameCnt[p->idx] == searchRemoveCnt * 2) nameCnt[p->idx] = (searchRemoveCnt * 2 + 1);
+					else nameCnt[p->idx] = searchRemoveCnt * 2;
+				}
 			}
 		}
 		
-		if (back[0]) {
+		if (backStr[0]) {
 			int fHash = getHash(backStr);
-			for (word* p = back[fHash]; p; p = p->next) {
-				if (nameCnt[p->idx] == searchRemoveCnt) nameCnt[p->idx] = (searchRemoveCnt + 1);
-				else nameCnt[p->idx] = searchRemoveCnt;
+			for (word* p = back[fHash]->next; p; p = p->next) {
+				if (!mstrcmp(p->name, backStr)) {
+					if (nameCnt[p->idx] == searchRemoveCnt * 2) nameCnt[p->idx] = (searchRemoveCnt * 2 + 1);
+					else nameCnt[p->idx] = searchRemoveCnt * 2;
+				}
 			}
 		}
 
-		if (front[0] && back[0]) {
+		if (frontStr[0] && backStr[0]) {
 			for (int i = 0; i < nSCnt; i++) {
-				if (nameCnt[i] == (searchRemoveCnt + 1)) {
-					rstCnt++;
+				if (nameCnt[i] == (searchRemoveCnt * 2 + 1) && mstrlen(nStk[i].name) >= (mstrlen(frontStr)+mstrlen(backStr))) {
+					rstCnt += nStk[i].cnt;
 				}
 			}
 		}
-		else {
+		
+		else if (frontStr[0] || backStr[0]) {
 			// front만 있을 경우
 			for (int i = 0; i < nSCnt; i++) {
-				if (nameCnt[i] == (searchRemoveCnt)) {
-					rstCnt++;
+				if (nameCnt[i] == (searchRemoveCnt * 2)) {
+					rstCnt += nStk[i].cnt;
 				}
+			}
+		}
+		// '*' 일때 = frontStr, backStr 모두 null
+		else {
+			for (int i = 0; i < nSCnt; i++) {
+				rstCnt += nStk[i].cnt;
 			}
 		}
 	}
 	else {
 		int hash = getHash(str);
-		for (word* p = origin[hash]; p; p = p->next) {
-			rstCnt=nStk[p->idx].cnt;
+		for (word* p = origin[hash]->next; p; p = p->next) {
+			if (!mstrcmp(p->name, str)) {
+				rstCnt = nStk[p->idx].cnt;
+			}
 		}
 	}
-	searchRemoveCnt*=2;
 	return rstCnt;
 }

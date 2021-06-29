@@ -25,6 +25,9 @@ static int run(int score)
 
 	for (int q = 0; q < queryCnt; ++q)
 	{
+		if (q == 19019) {
+			int a = 1;
+		}
 		int cmd;
 		scanf("%d", &cmd);
 
@@ -85,9 +88,13 @@ int main(void)
 
 	for (int testcase = 1; testcase <= TC; ++testcase)
 	{
+		if (testcase == 9) {
+			int a = 1;
+		}
 		int score = run(targetScore);
 		printf("#%d %d\n", testcase, score);
 	}
 
 	return 0;
 }
+ 
