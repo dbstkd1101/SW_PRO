@@ -168,8 +168,7 @@ int removeWord(char str[])
 			int fHash = getHash(frontStr);
 			for (word* p = front[fHash]->next; p; p = p->next) {
 				if (!mstrcmp(p->name, frontStr)) {
-					if (nameCnt[p->idx] == searchRemoveCnt*2) nameCnt[p->idx] = (searchRemoveCnt*2 + 1);
-					else nameCnt[p->idx] = searchRemoveCnt*2;
+					nameCnt[p->idx] = searchRemoveCnt*2;
 				}
 			}
 		}
@@ -192,6 +191,7 @@ int removeWord(char str[])
 					for (int j = 0; j < nStk[i].addrCnt; j++) {
 						nStk[i].addr[j]->pop();
 					}
+					nStk[i].addrCnt = 0;
 				}
 			}
 		}
@@ -204,6 +204,7 @@ int removeWord(char str[])
 					for (int j = 0; j < nStk[i].addrCnt; j++) {
 						nStk[i].addr[j]->pop();
 					}
+					nStk[i].addrCnt = 0;
 				}
 			}
 		}
@@ -215,6 +216,7 @@ int removeWord(char str[])
 				for (int j = 0; j < nStk[i].addrCnt; j++) {
 					nStk[i].addr[j]->pop();
 				}
+				nStk[i].addrCnt = 0;
 			}
 		}
 	}
@@ -227,6 +229,8 @@ int removeWord(char str[])
 				for (int i = 0; i < nStk[p->idx].addrCnt; i++) {
 					nStk[p->idx].addr[i]->pop();
 				}
+				//아니 왜 이거 때문에 오류가 나지? 
+				nStk[p->idx].addrCnt = 0;
 			}
 		}
 	}
@@ -248,8 +252,7 @@ int searchWord(char str[])
 			int fHash = getHash(frontStr);
 			for (word* p = front[fHash]->next; p; p = p->next) {
 				if (!mstrcmp(p->name, frontStr)) {
-					if (nameCnt[p->idx] == searchRemoveCnt * 2) nameCnt[p->idx] = (searchRemoveCnt * 2 + 1);
-					else nameCnt[p->idx] = searchRemoveCnt * 2;
+					nameCnt[p->idx] = searchRemoveCnt * 2;
 				}
 			}
 		}

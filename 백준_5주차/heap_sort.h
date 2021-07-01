@@ -1,106 +1,60 @@
-#include <stdio.h>
+#pragma once
+#ifndef NULL
+#define NULL 0
+#endif
 
-#define MAX_SIZE 100
+#define MAX_HEAP_LEN 1000
+typedef int data;
 
-int heap[MAX_SIZE];
-int heapSize = 0;
-
-void heapInit(void)
-{
-	heapSize = 0;
+//왼쪽이 더 나은거(등호는 문제마다 다름)
+bool MAX(data a, data b) {
+	return a > b;
+}
+bool MIN(data a, data b) {
+	return a < b;
 }
 
-int heapPush(int value)
-{
-	if (heapSize + 1 > MAX_SIZE)
-	{
-		printf("queue is full!");
-		return 0;
-	}
-
-	heap[heapSize] = value;
-
-	int current = heapSize;
-	while (current > 0 && heap[current] < heap[(current - 1) / 2])
-	{
-		int temp = heap[(current - 1) / 2];
-		heap[(current - 1) / 2] = heap[current];
-		heap[current] = temp;
-		current = (current - 1) / 2;
-	}
-
-	heapSize = heapSize + 1;
-
-	return 1;
+void swap(data &a, data &b) {
+	data t = a; a = b; b = t;
 }
 
-int heapPop(int *value)
-{
-	if (heapSize <= 0)
-	{
-		return -1;
+struct PQ {
+	int hn;
+	bool (*comp)(data, data);
+	data heap[MAX_HEAP_LEN];
+
+	void init(bool (*_comp)(data, data)) {
+		hn = 0;
+		comp = _comp;
 	}
 
-	*value = heap[0];
-	heapSize = heapSize - 1;
-
-	heap[0] = heap[heapSize];
-
-	int current = 0;
-	while (current * 2 + 1 < heapSize)
-	{
-		int child;
-		if (current * 2 + 2 == heapSize)
-		{
-			child = current * 2 + 1;
-		}
-		else
-		{
-			child = heap[current * 2 + 1] < heap[current * 2 + 2] ? current * 2 + 1 : current * 2 + 2;
-		}
-
-		if (heap[current] < heap[child])
-		{
-			break;
-		}
-
-		int temp = heap[current];
-		heap[current] = heap[child];
-		heap[child] = temp;
-
-		current = child;
+	data top() {
+		return hn > 0 ? heap[0] : NULL;
 	}
-	return 1;
-}
+	bool empty() {return hn == 0;}
+	int size() {return hn;}
 
-int main(int argc, char* argv[])
-{
-	int T, N;
-
-	scanf("%d", &T);
-
-	for (int test_case = 1; test_case <= T; test_case++)
-	{
-		scanf("%d", &N);
-
-		heapInit();
-
-		for (int i = 0; i < N; i++)
-		{
-			int value;
-			scanf("%d", &value);
-			heapPush(value);
+	void push(data input) {
+		heap[++hn] = input;
+		// 자식이 더 낫다면
+		//특이점 가운데
+		for (int cur = hn; cur > 1 && comp(heap[cur], heap[cur / 2]); cur /= 2) {
+			swap(heap[cur], heap[cur / 2]);
 		}
-
-		printf("#%d ", test_case);
-
-		for (int i = 0; i < N; i++)
-		{
-			int value;
-			heapPop(&value);
-			printf("%d ", value);
-		}
-		printf("\n");
 	}
-	return 0;
-}
+	data pop() {
+		if (hn == 0) return NULL;
+
+		data ret = heap[1];
+		swap(heap[1], heap[hn--]);
+		//  처음 2개, 마지막이 2개
+		int p = 1;
+		for (int cur = 2;cur<=hn; p=cur, cur*=2) {
+			// 형이 있으면서
+			if (cur+1<=hn && comp(heap[cur + 1], heap[cur])) cur += 1;
+			if (comp(heap[p], heap[cur])) break;
+			else swap(heap[p], heap[cur]);
+		}
+		return ret;
+	}
+}maxpq, minpq;
