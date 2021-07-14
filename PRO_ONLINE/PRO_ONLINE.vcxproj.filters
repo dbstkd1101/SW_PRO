@@ -282,6 +282,33 @@
     <ClCompile Include="ID검사.cpp">
       <Filter>소스 파일\인텐시브\3일차</Filter>
     </ClCompile>
+    <ClCompile Include="문자열넘버링_unordered_map.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="ID검사_unordered_set.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="ID검사_unordered_map.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="합이0_linear_probing.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="합이0_list, vector.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="합이0_unordered_map.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="합이0_user_chaining.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="MCS.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="MCS_custom.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
