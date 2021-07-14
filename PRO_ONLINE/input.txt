@@ -1,11 +1,6 @@
-10
-1 ronaldo
-2 ronaldo
-3 ronaldo
-3 novak
-3 geeks
-1 novak
-5 novak
-5 geeks
-6 novak
-4 ronaldo
+5
+20 5 2019 10
+30 7 12367 5
+50 10 7131 20
+100 15 337 50
+1000 20 1 10

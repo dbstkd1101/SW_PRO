@@ -279,7 +279,7 @@
     <ClCompile Include="정수넘버링_unordered.cpp">
       <Filter>소스 파일\인텐시브\3일차</Filter>
     </ClCompile>
-    <ClCompile Include="ID검사.cpp">
+    <ClCompile Include="ID검사_연습.cpp">
       <Filter>소스 파일\인텐시브\3일차</Filter>
     </ClCompile>
     <ClCompile Include="문자열넘버링_unordered_map.cpp">
@@ -306,7 +306,16 @@
     <ClCompile Include="MCS.cpp">
       <Filter>소스 파일\인텐시브\3일차</Filter>
     </ClCompile>
-    <ClCompile Include="MCS_custom.cpp">
+    <ClCompile Include="MCS_custom★.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="MCS_연습.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴 찾기1_연습.cpp">
+      <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="패턴 찾기1_main.cpp">
       <Filter>소스 파일\인텐시브\3일차</Filter>
     </ClCompile>
   </ItemGroup>
@@ -315,6 +324,9 @@
       <Filter>리소스 파일</Filter>
     </Text>
     <Text Include="output.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="메모!!.txt">
       <Filter>리소스 파일</Filter>
     </Text>
   </ItemGroup>
