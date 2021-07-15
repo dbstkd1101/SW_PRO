@@ -9,8 +9,7 @@ using namespace std;
 const int LN = 1e4 + 3;
 
 struct node {
-	int idx, pIdx, fearIndex, delta;
-	int fearSum;
+	int idx, pIdx, fearIndex, delta, fearSum;
 	list<node> children;
 };
 
@@ -30,29 +29,29 @@ void init() {
 }
 
 void updateFear(list<node>::iterator _it, int _fearIndex) {
-	_it->delta += _fearIndex;
-	_it->fearSum += _fearIndex;
-	if (_it->pIdx!=-1) {
+	(_it)->delta += _fearIndex;
+	(_it)->fearSum += _fearIndex;
+	if ((_it)->pIdx!=-1) {
 		updateFear(itArr[nodeAdrr[_it->pIdx]], _fearIndex);
 	}
 }
 
 int enlist(int id, int teamID, int fearIndex) {
 	nodeAdrr[id] = nCnt++;
-	list<node> childTmp = itArr[nodeAdrr[teamID]]->children;
+	list<node> pChild = itArr[nodeAdrr[teamID]]->children;
 	
 	list<node>::iterator it;
-	if (childTmp.size() == 0) {
-		it = childTmp.begin();
+	if (pChild.size() == 0) {
+		it = pChild.begin();
 	}
 	else {
-		it = childTmp.end();
+		it = pChild.end();
 		it--;
 	}
-	node tmp = { nodeAdrr[id], nodeAdrr[teamID], fearIndex, 0, 0 };
-
+	//nodeAdrr[id];
 	//itArr[nodeAdrr[id]]=itArr[nodeAdrr[teamID]]->children.insert(it, tmp);
-	childTmp.insert(it, tmp);
+	//itArr[(nodeAdrr[id])] = 
+	itArr[nodeAdrr[id]]=pChild.insert(it, { nodeAdrr[id], nodeAdrr[teamID], fearIndex, 0, 0 });
 
 	updateFear(itArr[nodeAdrr[teamID]], fearIndex);
 
