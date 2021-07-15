@@ -7,6 +7,8 @@
 #include<string>
 using namespace std;
 
+//전체 개수 중 T는 나머지가 같으면 같은거니 계산 제외함 (성능 업)
+//3개만 1001진법 이상으로 하면 overflow 가능성 줄어드니.
 struct Data {
 	int a, c, g;
 	//bool operator==(const Data&r) const {

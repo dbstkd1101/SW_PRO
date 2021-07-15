@@ -49,7 +49,7 @@ static int run() {
 }
 
 int main() {
-    //freopen("input.txt", "r", stdin);
+    freopen("input.txt", "r", stdin);
     int TC, i, j, Q;
     scanf("%d", &TC);
     for (i = 1; i <= TC; ++i) {

@@ -1,9 +1,29 @@
-vector : 동적 배열
+
+일단 neive하게 가고, 필요하면 성능 최적화
+
+---------------- 1일차 : list, vector
+vector : 동적 배열 (it 활용 불가. 이유는 삭제 시 invalid가 심함)
 
 template<typename T>
 void sum3(T&&a){
    a++;
 }
+
+list.insert하면 삽입 후 한칸 커서 이동
+li ++/-- 사용할 때, begin(), end() 넘지 않도록 조건 추가
+
+li.erase()하면 (invalidataion) : ++, -- 안먹힘. exception
+erase() 후 반환값을 받으면 됨. (다음 element를 가리킴)
+
+지워지지 않은 경우만 it++ 
+
+따라서, 지워지는 경우와 아닌 경우 if - else로 나눠야 햄. for 마지막 조건에 넣지말고.
+
+next(it, 1), prev(it, 2)와 같은 이동 후 it= 에게 할당 필요.
+
+TC마다 it은 초기화로 end()로 설정
+
+----------------2 일차 : set/map
 
 
 lvalue면 lvalue로 처리, rvalue면 rvalue로 처리.
@@ -20,7 +40,9 @@ pair는 기본적으로 operator가 구현되어 잇음
 
 Set에서 erase에서 it로 지우면 O(1), Key로 지우면 O(log(N))
 
+lazy update?
 ---------------- 3일차 : hash -------------------
+real time update?
 
 &인 매개변수에 값을 전달할 경우, Rvalue(임시성)는 안됨. Lvalue여야 함. 
 차라리 이런 것 때문에 &&으로 매개변수를 선언하는 것이 좋음.
@@ -49,3 +71,10 @@ function call operator()란...
 hash custorm 반환형은 size_t이지만 unsigned long long도 된다. 양수면 되는 듯.
 
 <int, int, hash<int>, MyEqual>
+
+
+--------------- 4일차 : 기출문제 -----------------
+용병 : Team 숫자가 매우 많으면 AVG Case가 linear하게 내용 갱신해도 시간복잡도 괜춘
+
+문제 조건을 기반으로 성능 Issue 점검 후, 해결책을 문제 hint를 통해 출제자 의도를 파악
+(score도 매우 적게 -4 < score < 5로 제한)

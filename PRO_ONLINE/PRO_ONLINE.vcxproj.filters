@@ -58,6 +58,15 @@
     <Filter Include="소스 파일\인텐시브\3일차">
       <UniqueIdentifier>{97c5854a-faee-4462-8396-181322ebac59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\기출문제\용병">
+      <UniqueIdentifier>{a84b5760-93c5-47f2-9ef3-6ae90ae652db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\기출문제\클론의 바이러스">
+      <UniqueIdentifier>{6b6f909b-569e-4751-9d7a-148899fe58cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\기출문제\메모리 박람회">
+      <UniqueIdentifier>{daba9e9b-faa7-4fbe-af76-46945827f392}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="바이러스_2612.cpp">
@@ -210,7 +219,7 @@
     <ClCompile Include="요세푸스순열_list.cpp">
       <Filter>소스 파일\인텐시브\1일차</Filter>
     </ClCompile>
-    <ClCompile Include="키로거.cpp">
+    <ClCompile Include="키로거_list.cpp">
       <Filter>소스 파일\인텐시브\1일차</Filter>
     </ClCompile>
     <ClCompile Include="등수찾기.cpp">
@@ -317,6 +326,33 @@
     </ClCompile>
     <ClCompile Include="패턴 찾기1_main.cpp">
       <Filter>소스 파일\인텐시브\3일차</Filter>
+    </ClCompile>
+    <ClCompile Include="키로서_연습.cpp">
+      <Filter>소스 파일\인텐시브\1일차</Filter>
+    </ClCompile>
+    <ClCompile Include="practice3.cpp">
+      <Filter>소스 파일\인텐시브\1일차</Filter>
+    </ClCompile>
+    <ClCompile Include="용병_user_연습.cpp">
+      <Filter>소스 파일\기출문제\용병</Filter>
+    </ClCompile>
+    <ClCompile Include="용병_main.cpp">
+      <Filter>소스 파일\기출문제\용병</Filter>
+    </ClCompile>
+    <ClCompile Include="용병_ user.cpp">
+      <Filter>소스 파일\기출문제\용병</Filter>
+    </ClCompile>
+    <ClCompile Include="클론의 바이러스_main.cpp">
+      <Filter>소스 파일\기출문제\클론의 바이러스</Filter>
+    </ClCompile>
+    <ClCompile Include="클론의 바이러스_user_연습.cpp">
+      <Filter>소스 파일\기출문제\클론의 바이러스</Filter>
+    </ClCompile>
+    <ClCompile Include="메모리 박람회_user.cpp">
+      <Filter>소스 파일\기출문제\메모리 박람회</Filter>
+    </ClCompile>
+    <ClCompile Include="메모리 박람회_main.cpp">
+      <Filter>소스 파일\기출문제\메모리 박람회</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
