@@ -27,7 +27,9 @@ static int run(int correct) {
     for (int i = 0; i < N; i++) {
         userResult = 0;
         scanf("%d", &order);
-
+        if (i == 6) {
+            int a = 6;
+        }
         switch (order) {
         case ENLIST: {
             scanf("%d%d%d", &id, &teamID, &fearIndex);
