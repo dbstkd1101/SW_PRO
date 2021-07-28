@@ -1,36 +1,40 @@
 #include <stdio.h>
 #include <iostream>
 #include <algorithm>
+#include <list>
+
 using namespace std;
 
-template<typename T>
-auto mySum(T a, T b) {
-	//return { a.first + b.first, a.second + b.second }; // initializer list
-	return make_pair{ a.first + b.first, a.second + b.second }; // pair<T, T>
-}
+list<int> li{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
 int main() {
-	int a{ 2 }; // int a=2;
-	pair<int, int> p{ 1, 2 };
-	pair<int, int> q{ 3, 3 };
-
-	cout << p.first << " " << p.second << endl;
-	cout << (p < q) << endl;
-
-	//auto pp = p; // pair<int, int> pp;
 	
-	auto &pp = p;
-	pp.first = 0;
-
-	cout << p.first << " " << p.second << endl;
-
-	//auto pq = mySum(p, q);
-
-	int arr[5]{ 4, 5, 2, 4, 1 };
-	for (auto x : arr) {
-		cout << x << " ";
+	// 鉴规氢 立辟
+	for (auto it = li.begin(); it != li.end(); it++) {
+		printf("%d, ", *it);
 	}
 
+	// 开规氢 立辟
+	for (auto it = li.end(); it!=li.begin(); it--) {
+		--it;
+	} 
+	auto it = li.begin();
+	// return X
+	advance(it, 3);
+	puts("");
+	printf("advaned 3 : %d\n", *it);
+
+	// return it
+	list<int>::iterator it2 = next(it, 2);
+	printf("next 2 : %d\n", *it2);
+
+	// return it
+	list<int>::iterator it3 = prev(it2, 1);
+	printf("prev 1 : %d\n", *it3);
+	
+	auto it4 = li.begin();
+	(*it4)=0;
+	printf("it value change : %d\n", *it4);
 
 	return 0;
 }

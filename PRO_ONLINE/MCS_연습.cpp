@@ -5,56 +5,49 @@ using namespace std;
 
 const int LM = (int)(1e6) + 3;
 
-int K;
-char input[LM];
-
+int k;
+char str[LM];
+int cnt[4];
 
 struct Data {
-	int dna[4];
-	
-	bool operator==(const Data& r) const {
-		return (dna[0] == r.dna[0] && dna[1] == r.dna[1] && dna[2] == r.dna[2] && dna[3] == r.dna[3]);
-	}
-}dna;
+	int a, c, g, t;
+};
 
-struct MyHash {
-	size_t operator()(const Data& a) const{
-		return a.dna[0] * 1001 * 1001 * 1001 + a.dna[1] * 1001 * 1001 + a.dna[2] * 1001 + a.dna[3];
+struct myHash {
+	size_t operator()(const Data &d) const{
+		return d.a * (1000) * (1000) * (1000) + d.c * (1000) * (1000) + d.g * (1000) + d.t;
 	}
 };
 
-// ACGT
-void update(Data& _dna, int idx, int mode) {
-	if (mode == -1) _dna.dna[idx]--;
-	if (mode == 1) _dna.dna[idx]++;
-}
+struct myEqual {
+	size_t operator()(const Data& d1, const Data&d2) const {
+		return (d1.a == d2.a) && (d1.c == d2.c) && (d1.g == d2.g) && (d1.t == d2.t);
+	}
+};
 
-int idxDNA(char input) {
-	int rst = -1;
-	if (input == 'A') rst = 0;
-	if (input == 'C') rst = 1;
-	if (input == 'G') rst = 2;
-	if (input == 'T') rst = 3;
-	return rst;
-}
+unordered_map<Data, int, myHash, myEqual> htab;
 
-unordered_map<Data, int, MyHash> hTab;
+
+void update(Data & _cur, char c, int param) {
+	if (c == 'A') _cur.a += param;
+	if (c == 'C') _cur.c += param;
+	if (c == 'G') _cur.g += param;
+	if (c == 'T') _cur.t += param;
+}
 
 int main() {
 	freopen("input.txt", "r", stdin);
-	int maxRst = -1;
-	scanf("%d", &K);
-	scanf("%s", input);
-	for (int i = 0; *(input + i); i++) {
-		if (i + 1 >= K) {
-			if (i + 1 > K) {
-				update(dna, idxDNA(input[i - K]), -1);
-			}
-			update(dna, idxDNA(input[i]), 1);
-			if(maxRst < ++hTab[dna]) maxRst= hTab[dna];
-		}
+	scanf("%d", &k);
+	scanf("%s", str);
+	int rst = -1;
+	Data cur{ 0, 0, 0, 0 };
+
+	for (int i = 0; str[i]; i++) {
+		update(cur, str[i], 1);
+		if (i >= k) update(cur, str[i - k], -1);
+		rst=max(rst, ++htab[cur]);
 	}
-	printf("%d", maxRst);
+	printf("%d\n", rst);
 
 	return 0;
 }

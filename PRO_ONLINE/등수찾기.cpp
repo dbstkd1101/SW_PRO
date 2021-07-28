@@ -43,7 +43,7 @@ int main() {
 	
 	if (muchThan[X].size() > 0) {
 		visited[X]=1;
-		muchCnt = DFS(muchThan[X]);
+		muchCnt = DFS(muchThan);
 		muchCnt--;
 	}
 	else {
@@ -53,7 +53,7 @@ int main() {
 
 	if (lessThan[X].size() > 0) {
 		visited[X] = 1;
-		lessCnt = DFS(lessThan[X]);
+		lessCnt = DFS(lessThan);
 		lessCnt--;
 	}
 	else {

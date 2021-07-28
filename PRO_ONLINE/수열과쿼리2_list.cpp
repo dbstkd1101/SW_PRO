@@ -43,6 +43,7 @@ void back(int c) {
 }
 
 int main() {
+    freopen("input.txt", "r", stdin);
     int t, q, x, y;
     string cmd;
     scanf("%d", &t);

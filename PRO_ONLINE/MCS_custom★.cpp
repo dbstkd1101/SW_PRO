@@ -26,7 +26,6 @@ struct MyEqual {
 		return l.a == r.a && l.c == r.c && l.g == r.g;
 	}
 };
-
 unordered_map<Data, int, MyHash, MyEqual> htab; // a,c,g ºóµµ¼ö / cnt
 // unordered_map<Data, int, MyHash> htab; // KeyEqual : operator overloading
 int K;

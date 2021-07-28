@@ -12,16 +12,17 @@ void sum3(T&&a){
 list.insert하면 삽입 후 한칸 커서 이동
 li ++/-- 사용할 때, begin(), end() 넘지 않도록 조건 추가
 
-li.erase()하면 (invalidataion) : ++, -- 안먹힘. exception
+li.erase()하면 (invalidataion) : 곧바로 ++, -- 안먹힘(exception). 
 erase() 후 반환값을 받으면 됨. (다음 element를 가리킴)
 
-지워지지 않은 경우만 it++ 
-
+for문 안에서 li.erase()를 사용할 경우. 지워지지 않은 경우만 it++ 해야한다. 
 따라서, 지워지는 경우와 아닌 경우 if - else로 나눠야 햄. for 마지막 조건에 넣지말고.
 
 next(it, 1), prev(it, 2)와 같은 이동 후 it= 에게 할당 필요.
 
 TC마다 it은 초기화로 end()로 설정
+
+intrator 배열로 이동하는 문장에서, 해당 iterator 존재 유무 사전 체크 조건 추가
 
 ----------------2 일차 : set/map
 
@@ -51,16 +52,21 @@ real time update?
 && : LValue, RValue 상관 안하겠어.
 
 unordered_set/map은 내부적으로 list, chaining 사용
+bucket은 당근 흩뿌려서 저장
 
 unordered_set/map에서 iterator는 입력된 순서대로 아님.(사용X)
-bucket()은 당근 흩뿌려서 저장
 
 insert 한 번 없이, htab3[0]처럼 접근하면. 알아서 해당 bucket에 값 추가. 그러므로 htab.size()가 0->1로 변경
 
-map을 사용할 때, {key, value}의 value로 무게가 있는 struct 넣는거 지양하고, 해당 struct의 id? 정도를 넣고, 
+map을 사용할 때, {key, value}의 value로 무게가 있는 struct 넣는거 지양하고, 해당 struct의 id? 정도를 지향. 
 별도 struct 배열에서 따로 멤버변수들 구성해주기. (성능)
 
-기존재하는 key를 hTab.insert 하면 삽입 안함.
+기존재하는 key를 hTab.insert 하면 삽입 안함. (값은 변경 가능)
+
+find() 의 결과 부재 時 end() it return
+for( auto x : set){
+	위와 같이... 사용하면 안의 모든 element 사용가능
+}
 
 없는 key를 erase()해도 별 문제 X
 

@@ -10,6 +10,8 @@ const int LM = 4003;
 unordered_map<int, int> htab;	// a+b , cnt
 int A[LM], B[LM], C[LM], D[LM];
 
+
+
 int main() {
 	int n;
 	scanf("%d", &n);
