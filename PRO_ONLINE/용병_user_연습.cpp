@@ -36,6 +36,7 @@ void init() {
         }
     }
 }
+// id 중복 X
 void hireMercenary(int id, int team, int score) {
     soldier tmp = { id, team, score };
     auto tmpIt1 = li[team][score + 4].insert(it[team][score + 4], tmp);
@@ -44,16 +45,22 @@ void hireMercenary(int id, int team, int score) {
     sIdMap[id] = &*tmpIt1;
     sTMap[team]= &*tmpIt2;
 }
+
+// id가 있음이 보장
 void fireMercenary(int id) {
 
 }
+// id가 있음이 보장
 void updateMercenaryScore(int id, int score) {
 
 
 }
+
 void updateTeamScore(int team, int newScore) {
 
 }
+
+// Team에 병사 1명 이상 보장
 int bestMercenary(int team) {
     return 0;
 }
